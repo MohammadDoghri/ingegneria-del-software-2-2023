@@ -1,31 +1,37 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express");
 const app = express();
-const ejs = require('ejs');
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
-app.set('view engine','ejs');
+app.use(bodyParser.urlencoded({extended: true}));
 
-mongoose.connect('mongodb+srv://provarent:provarent@cluster0.2k797.mongodb.net/biciclette');
 
-//const schema = new mongoose.Schema({
-const biciSchema = {
-    id : Number,
-    modello: String,
-    marca: String,
-    prezzo: Number,
-    descrizione: String
-}
+mongoose.connect("mongodb+srv://provarent:provarent@cluster0.2k797.mongodb.net/biciclette");
 
-const Bici = mongoose.model('Bici', biciSchema);
-
-app.get('/', (req, res) => {
-    Bici.find({}, function(err, bicis){
-        res.render('index',{
-            bicisList: bicis
-        })
-    })
+const provaSchema = new mongoose.Schema({
+    Modello: String,
+    Marca: String,
+    Prezzo: String,
+    Descrizione: String
 })
 
-app.listen(4000, function(){
-    console.log('server is running');
+const prova = mongoose.model("bike", provaSchema);
+
+app.post("/",function(req, res){
+    let newprova = new prova({
+        Modello: req.body.modello,
+        Marca: req.body.marca,
+        Prezzo: req.body.prezzo,
+        Descrizione: req.body.descrizione
+    });
+    newprova.save();
+    res.redirect('/');
+})
+
+app.get("/",function(req,res){
+    res.sendFile(__dirname + "/inseriscibici.html");
+})
+
+app.listen(3000, function(){
+    console.log("server is running on 3000");
 })
