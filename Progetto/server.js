@@ -1,37 +1,66 @@
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+var express = require('express');
+var env = require('dotenv').config()
+var ejs = require('ejs');
+var path = require('path');
+var app = express();
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
-app.use(bodyParser.urlencoded({extended: true}));
+//mongoose.connect('mongodb+srv://<DB_USER_NAME>:<DB_PASSWORD>@cluster0-vatbg.mongodb.net/registrationFormHeruko?retryWrites=true&w=majority', {
+  mongoose.connect('mongodb+srv://provarent:provarent@cluster0.2k797.mongodb.net/biciclette', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}, (err) => {
+  if (!err) {
+    console.log('MongoDB Connection Succeeded.');
+  } else {
+    console.log('Error in DB connection : ' + err);
+  }
+});
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+});
+
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');	
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(express.static(__dirname + '/views'));
+
+var index = require('./routes/index');
+app.use('/', index);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  var err = new Error('File Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+// define as the last app.use callback
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.send(err.message);
+});
 
 
-mongoose.connect("mongodb+srv://provarent:provarent@cluster0.2k797.mongodb.net/biciclette");
-
-const provaSchema = new mongoose.Schema({
-    Modello: String,
-    Marca: String,
-    Prezzo: String,
-    Descrizione: String
-})
-
-const prova = mongoose.model("bike", provaSchema);
-
-app.post("/",function(req, res){
-    let newprova = new prova({
-        Modello: req.body.modello,
-        Marca: req.body.marca,
-        Prezzo: req.body.prezzo,
-        Descrizione: req.body.descrizione
-    });
-    newprova.save();
-    res.redirect('/');
-})
-
-app.get("/",function(req,res){
-    res.sendFile(__dirname + "/inseriscibici.html");
-})
-
-app.listen(3000, function(){
-    console.log("server is running on 3000");
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, function () {
+  console.log('Server is started on http://127.0.0.1:'+PORT);
+});

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <title>Rent Bike</title>
+        <link href="https://fonts.googleapis.com/css?family=Dosis:400,700" rel="stylesheet">
+        <link href="style.css" rel="stylesheet">
+    </head>
+<body>
+
+    <center>
+        <form class="container" method="post"  action="/inserisci">
+            
+                
+                    <b>inserisci i dati della tua bici.Tutti i campi sono obbligatori</b>
+              
+                    <br>
+                    <div class="form-group">
+                        <b>ID</b>
+                        <input type="number" name="id">
+                    </div>
+                    <div class="form-group">
+                        <b>Modello</b>     
+                             <select name="modello">
+                                <option value="Seleziona il modello">Seleziona il Modello</option>
+                                <option value="1">n1</option>
+                                <option value="2">n2</option>
+                                <option value="3">n3</option>                        
+                                <option value="4">n4</option>   
+                            </select> 
+                            <br>
+                    </div>
+                    
+                    <div class="form-group">
+                        <b>Marca</b>
+                        <input type="text" name="marca">
+                        <br>
+                    </div>
+                    
+                    <div class="form-group">
+                        <b>Prezzo</b>
+                        <input type="number" name="prezzo">
+                    </div>
+                    
+                    <div class="form-group">
+                         <br>
+                    <b>Foto</b>
+                    <br>
+                    </div>
+                   
+                    <div class="form-group">
+
+                        <b>Breve descrizone</b>
+                        <textarea name="descrizione" rows="6" cols="32"></textarea>
+
+                    </div>
+                
+                    <button>Pubblica</button>
+                   
+                
+        </form>
+        
+            
+        
+        
+    </center>
+
+</body>
+
+
+
+</html>
