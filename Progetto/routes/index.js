@@ -4,11 +4,32 @@ var User = require('../models/user');
 var Bike = require('../models/bike'); //mioNuovo
 
 
+
+
+
+// Routes
+/**
+ * @swagger
+ * /:
+ *  get:
+ *    description: Use to request all customers
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
 router.get('/', function (req, res, next) {
 	return res.render('index.ejs');
 });
 
-
+/**
+ * @swagger
+ * /:
+ *  post:
+ *    description: Use to request all customers
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
 router.post('/', function(req, res, next) {
 	console.log(req.body);
 	var personInfo = req.body;
@@ -59,10 +80,22 @@ router.post('/', function(req, res, next) {
 	}
 });
 
+/**
+ * @swagger
+ * /login:
+ *    get:
+ *      description: check if username and password are correct
+ */
 router.get('/login', function (req, res, next) {
 	return res.render('login.ejs');
 });
 
+/**
+ * @swagger
+ * /login:
+ *    post:
+ *      description: check if username and password are correct
+ */
 router.post('/login', function (req, res, next) {
 	//console.log(req.body);
 	User.findOne({email:req.body.email},function(err,data){
@@ -83,10 +116,17 @@ router.post('/login', function (req, res, next) {
 	});
 });
 
+
+
 ///-----------ZUGRI-----------------------------------------------------------------------------------------------------
 
 
-
+/**
+ * @swagger
+ * /inserisci:
+ *    post:
+ *      description: check if username and password are correct
+ */
 router.post('/inserisci', function (req, res, next) {
 	console.log("INSERISCI");
 	let nuovabici = new Bike({
@@ -101,11 +141,22 @@ router.post('/inserisci', function (req, res, next) {
     res.redirect('/catalogo');	
 });
 
+/**
+ * @swagger
+ * /inserisci:
+ *    get:
+ *      description: check if username and password are correct
+ */
 router.get('/inserisci', function (req, res, next) {
 	return res.render('inserisci.ejs');
 });
 
-
+/**
+ * @swagger
+ * /profile:
+ *    get:
+ *      description: check if username and password are correct
+ */
 router.get('/profile', function (req, res, next) {
 	console.log("profile");
 	User.findOne({unique_id:req.session.userId},function(err,data){
@@ -120,6 +171,12 @@ router.get('/profile', function (req, res, next) {
 	});
 });
 
+/**
+ * @swagger
+ * /catalogo1:
+ *    get:
+ *      description: check if username and password are correct
+ */
 router.get('/catalogo1', function (req, res, next) {
 	console.log("catalogo1");
 	Bike.find({},function(err,data){
@@ -136,6 +193,13 @@ router.get('/catalogo1', function (req, res, next) {
 	});
 });
 
+
+/**
+ * @swagger
+ * /logout:
+ *    get:
+ *      description: check if username and password are correct
+ */
 router.get('/logout', function (req, res, next) {
 	console.log("logout")
 	if (req.session) {
@@ -150,9 +214,12 @@ router.get('/logout', function (req, res, next) {
 }
 });
 
-
-//const Bici = mongoose.model('Bici', biciSchema); //mioNuovo
-
+/**
+ * @swagger
+ * /catalogo:
+ *  get:
+ *    description: Use to request all bikes
+ */
 router.get('/catalogo', function (req, res, next) {
 	console.log("visualizza catalogo");
 	
@@ -164,10 +231,22 @@ router.get('/catalogo', function (req, res, next) {
     })
 });
 
+/**
+ * @swagger
+ * /forgetpass:
+ *  get:
+ *    description: Use to request all bikes
+ */
 router.get('/forgetpass', function (req, res, next) {
 	res.render("forget.ejs");
 });
 
+/**
+ * @swagger
+ * /forgetpass:
+ *  post:
+ *    description: Use to request all bikes
+ */
 router.post('/forgetpass', function (req, res, next) {
 	//console.log('req.body');
 	//console.log(req.body);
