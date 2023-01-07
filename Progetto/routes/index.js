@@ -141,6 +141,11 @@ router.post('/inserisci', function (req, res, next) {
     res.redirect('/catalogo');	
 });
 
+/*router.delete('/rimuovi', function(req, res,next) {
+	User.findOne({email:req.body.email},).remove();
+	
+	return res.render('/');
+   });*/
 /**
  * @swagger
  * /inserisci:
@@ -149,6 +154,18 @@ router.post('/inserisci', function (req, res, next) {
  */
 router.get('/inserisci', function (req, res, next) {
 	return res.render('inserisci.ejs');
+});
+router.delete("/rimuovi", function(request, response) {
+	var email = request.params.email;
+   
+	request.db.get('User').remove({'email': email}, function(error, document) {
+	 if (error) response.send(error);
+	 return response.send("deleted");
+	});
+   });
+
+router.get('/elimina', function (req, res, next) {
+	return res.render('elimina.ejs');
 });
 
 /**
