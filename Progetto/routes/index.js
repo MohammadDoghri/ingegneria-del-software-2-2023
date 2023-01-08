@@ -135,11 +135,16 @@ router.post('/inserisci', function (req, res, next) {
     res.redirect('/catalogo');	
 });
 
-/*router.delete('/rimuovi', function(req, res,next) {
+/**
+ * @swagger
+ * /rimuovi:
+ *  delete:
+ *    description: Use to render the forgetpass page
+ */
+router.delete('/rimuovi', function(req, res,next) {
 	User.findOne({email:req.body.email},).remove();
-	
 	return res.render('/');
-   });*/
+   });
 /**
  * @swagger
  * /inserisci:
