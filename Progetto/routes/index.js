@@ -3,10 +3,6 @@ var router = express.Router();
 var User = require('../models/user');
 var Bike = require('../models/bike'); //mioNuovo
 
-
-
-
-
 // Routes
 /**
  * @swagger
@@ -111,10 +107,6 @@ router.post('/login', function (req, res, next) {
 });
 
 
-
-///-----------ZUGRI-----------------------------------------------------------------------------------------------------
-
-
 /**
  * @swagger
  * /inserisci:
@@ -154,18 +146,7 @@ router.delete('/rimuovi', function(req, res,next) {
 router.get('/inserisci', function (req, res, next) {
 	return res.render('inserisci.ejs');
 });
-router.delete("/rimuovi", function(request, response) {
-	var email = request.params.email;
-   
-	request.db.get('User').remove({'email': email}, function(error, document) {
-	 if (error) response.send(error);
-	 return response.send("deleted");
-	});
-   });
 
-router.get('/elimina', function (req, res, next) {
-	return res.render('elimina.ejs');
-});
 
 /**
  * @swagger
@@ -257,6 +238,10 @@ router.get('/forgetpass', function (req, res, next) {
 	res.render("forget.ejs");
 });
 
+router.get('/elimina', function (req, res, next) {
+	res.render("elimina.ejs");
+});
+
 /**
  * @swagger
  * /forgetpass:
@@ -290,5 +275,22 @@ router.post('/forgetpass', function (req, res, next) {
 	});
 	
 });
+
+router.post('/elimina', function (req, res, next) {
+	//console.log('req.body');
+	//console.log(req.body);
+	User.deleteOne({email:req.body.email},function(err,data){
+		console.log(data);
+		if(!data){
+			res.send({"Success":"This Email Is not regestered!"});
+		}else{
+
+		}
+		return res.redirect('/');
+	});
+	
+});
+
+
 
 module.exports = router;
