@@ -12,10 +12,7 @@ var Bike = require('../models/bike'); //mioNuovo
  * @swagger
  * /:
  *  get:
- *    description: Use to request all customers
- *    responses:
- *      '200':
- *        description: A successful response
+ *    description: Use to render the index page
  */
 router.get('/', function (req, res, next) {
 	return res.render('index.ejs');
@@ -25,10 +22,7 @@ router.get('/', function (req, res, next) {
  * @swagger
  * /:
  *  post:
- *    description: Use to request all customers
- *    responses:
- *      '200':
- *        description: A successful response
+ *    description: Use to request index page
  */
 router.post('/', function(req, res, next) {
 	console.log(req.body);
@@ -84,7 +78,7 @@ router.post('/', function(req, res, next) {
  * @swagger
  * /login:
  *    get:
- *      description: check if username and password are correct
+ *      description: Use to render the login page
  */
 router.get('/login', function (req, res, next) {
 	return res.render('login.ejs');
@@ -150,7 +144,7 @@ router.post('/inserisci', function (req, res, next) {
  * @swagger
  * /inserisci:
  *    get:
- *      description: check if username and password are correct
+ *      description: Use to render the inserisci page
  */
 router.get('/inserisci', function (req, res, next) {
 	return res.render('inserisci.ejs');
@@ -252,7 +246,7 @@ router.get('/catalogo', function (req, res, next) {
  * @swagger
  * /forgetpass:
  *  get:
- *    description: Use to request all bikes
+ *    description: Use to render the forgetpass page
  */
 router.get('/forgetpass', function (req, res, next) {
 	res.render("forget.ejs");
