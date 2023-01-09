@@ -18,13 +18,43 @@ router.get('/', function (req, res, next) {
  * @swagger
  * /:
  *  post:
- *    description: Use to request index page
+ *    description: Use to create a new user
+ *    parameters:
+ *      - name: email
+ *        in: query
+ *        description: Name of our customer
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *      - name: username
+ *        in: query
+ *        description: Name of our customer
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *      - name: password
+ *        in: query
+ *        description: Name of our customer
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *      - name: passwordConf
+ *        in: query
+ *        description: Name of our customer
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *    responses:
+ *      201:
+ *         description: Created
  */
 router.post('/', function(req, res, next) {
 	console.log(req.body);
 	var personInfo = req.body;
-
-
 	if(!personInfo.email || !personInfo.username || !personInfo.password || !personInfo.passwordConf){
 		res.send();
 	} else {
@@ -111,7 +141,29 @@ router.post('/login', function (req, res, next) {
  * @swagger
  * /inserisci:
  *    post:
- *      description: check if username and password are correct
+ *      description: create a new bike
+ *    parameters:
+ *      - name: id
+ *        in: query
+ *        description: Name of our customer
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *      - name: user
+ *        in: query
+ *        description: Name of our customer
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *      - name: email
+ *        in: query
+ *        description: Name of our customer
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
  */
 router.post('/inserisci', function (req, res, next) {
 	console.log("INSERISCI");
@@ -124,19 +176,10 @@ router.post('/inserisci', function (req, res, next) {
     });
     nuovabici.save();
 	console.log(req.nuovabici);
-    res.redirect('/catalogo');	
+	res.status(201).send();
+    //res.redirect('/catalogo');	
 });
 
-/**
- * @swagger
- * /rimuovi:
- *  delete:
- *    description: Use to render the forgetpass page
- */
-router.delete('/rimuovi', function(req, res,next) {
-	User.findOne({email:req.body.email},).remove();
-	return res.render('/');
-   });
 /**
  * @swagger
  * /inserisci:
@@ -152,7 +195,7 @@ router.get('/inserisci', function (req, res, next) {
  * @swagger
  * /profile:
  *    get:
- *      description: check if username and password are correct
+ *      description: get user information
  */
 router.get('/profile', function (req, res, next) {
 	console.log("profile");
@@ -168,34 +211,12 @@ router.get('/profile', function (req, res, next) {
 	});
 });
 
-/**
- * @swagger
- * /catalogo1:
- *    get:
- *      description: check if username and password are correct
- */
-router.get('/catalogo1', function (req, res, next) {
-	console.log("catalogo1");
-	Bike.find({},function(err,data){
-		console.log("data");
-		console.log(data);
-		if(!data){
-			res.redirect('/');
-		}else{
-			console.log("found");
-			//return res.render('catalogo1.ejs', {dataList: data});
-			//return res.render('catalogo1.ejs', {"modello":data.modello,"marca":data.marca});
-			res.render('catalogo1.ejs', {data});
-		}
-	});
-});
-
 
 /**
  * @swagger
  * /logout:
  *    get:
- *      description: check if username and password are correct
+ *      description: exit from user session and redirect to homepage
  */
 router.get('/logout', function (req, res, next) {
 	console.log("logout")
@@ -205,7 +226,7 @@ router.get('/logout', function (req, res, next) {
     	if (err) {
     		return next(err);
     	} else {
-    		return res.redirect('/');
+    		return res.redirect('/login');
     	}
     });
 }
@@ -215,7 +236,10 @@ router.get('/logout', function (req, res, next) {
  * @swagger
  * /catalogo:
  *  get:
- *    description: Use to request all bikes
+ *    description: get all the disponible bikes
+ *    responses:
+ *      201:
+ *         description: Created
  */
 router.get('/catalogo', function (req, res, next) {
 	console.log("visualizza catalogo");
@@ -238,6 +262,15 @@ router.get('/forgetpass', function (req, res, next) {
 	res.render("forget.ejs");
 });
 
+/**
+ * @swagger
+ * /forgetpass:
+ *  get:
+ *    description: Use to render the elimina page
+ *    responses:
+ *      201:
+ *         description: Created
+ */
 router.get('/elimina', function (req, res, next) {
 	res.render("elimina.ejs");
 });
@@ -246,7 +279,10 @@ router.get('/elimina', function (req, res, next) {
  * @swagger
  * /forgetpass:
  *  post:
- *    description: Use to request all bikes
+ *    description: use to change user password
+ *    responses:
+ *      201:
+ *         description: Created
  */
 router.post('/forgetpass', function (req, res, next) {
 	//console.log('req.body');
@@ -275,16 +311,45 @@ router.post('/forgetpass', function (req, res, next) {
 	});
 	
 });
+/**
+ * @swagger
+ * /elimina/{email}:
+ *  delete:
+ *    description: Use to delete one user
+ *    parameters:
+ *      - name: email
+ *        in: path
+ *        description: Name of our customer
+ *        required: true
+ *        schema:
+ *          type: string
+ *          format: string
+ *    responses:
+        '200':
+          description: OK
+ */
+router.delete('/elimina/:email', function (req, res, next) {
+	//console.log(req.email);
 
-router.post('/elimina', function (req, res, next) {
-	//console.log('req.body');
-	//console.log(req.body);
-	User.deleteOne({email:req.body.email},function(err,data){
+	User.deleteOne({email: req.params.email},function(err,data){
 		console.log(data);
 		if(!data){
 			res.send({"Success":"This Email Is not regestered!"});
 		}else{
+		}
+		return res.redirect('/');
+	});
+	
+});
 
+router.post('/elimina', function (req, res, next) {
+	//console.log(req.email);
+
+	User.deleteOne({email: req.body.email},function(err,data){
+		console.log(data);
+		if(!data){
+			res.send({"Success":"This Email Is not regestered!"});
+		}else{
 		}
 		return res.redirect('/');
 	});

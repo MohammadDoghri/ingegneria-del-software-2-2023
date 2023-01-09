@@ -17,9 +17,6 @@ var swaggerOptions = {
       version: "1.0.0",
       title: "Customer API",
       description: "Customer API Information",
-      contact: {
-        name: "Amazing Developer"
-      },
       servers: ["http://localhost:3000"]
     }
   },
