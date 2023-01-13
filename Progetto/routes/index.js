@@ -357,5 +357,16 @@ router.post('/elimina', function (req, res, next) {
 });
 
 
+router.post('/prenota',async function(req, res, next){
+	//var biciinfo = req.body;
+	console.log("list");
+	console.log(req.body.id);
+	console.log("aaaa");
+	
+	await Bike.updateOne({id:req.body.id},{Stato: false});
+	return res.redirect('/catalogo');
+
+});
+
 
 module.exports = router;

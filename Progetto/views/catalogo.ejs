@@ -22,14 +22,30 @@
             </thead>
             <tbody>
                 <%bicisList.forEach(bike => {%>
+                    
                     <tr>
-                        <th scope="row"><%= bike._id %></th>
-                        <td><%= bike.Modello %></td>
-                        <td><%= bike.Marca %></td>
-                        <td><%= bike.Prezzo %></td>
-                        <td><%= bike.Descrizione %></td>
-                    </tr>
+                        
+                        <th scope="row" name="id"><%= bike.id %></th>
+                        <td name="modello"><%= bike.Modello %></td>
+                        <td name="marca"><%= bike.Marca %></td>
+                        <td name="prezzo"><%= bike.Prezzo %></td>
+                        <td name="descrizione"><%= bike.Descrizione %></td>
+                    
+                        <td><% if(bike.Stato){ %>
+                            libera
+                            <% }else{%>
+                                prenotata
+                            <% }%>
+                                </td>
+                    
+                    </tr> 
+                
                 <%})%>
+                <form id="prova" method="post" action="/prenota">
+                    <br>Inserire ID bici per prenotarla oggi<br>
+                    <input type="textarea" name="id">
+                    <input type="submit" value="prenota" class="btn btn-success">
+                </form>
             </tbody>
           </table>
     </body>
