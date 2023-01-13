@@ -9,8 +9,8 @@ bikeSchema = new Schema( {
     Modello: String,
     Marca: String,
     Prezzo: Number,
-    Descrizione: String
-
+    Descrizione: String,
+    Stato: Boolean
 }),
 Bike = mongoose.model('Bike', bikeSchema);
 
