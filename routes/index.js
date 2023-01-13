@@ -172,7 +172,8 @@ router.post('/inserisci', function (req, res, next) {
         Modello: req.body.modello,
         Marca: req.body.marca,
         Prezzo: req.body.prezzo,
-        Descrizione: req.body.descrizione
+        Descrizione: req.body.descrizione,
+	Stato: true
     });
     nuovabici.save();
 	console.log(req.nuovabici);
