@@ -231,6 +231,36 @@ router.get('/logout', function (req, res, next) {
     });
 }
 });
+/**
+ * @swagger
+ * /elimina/{email}:
+ *  delete:
+ *    description: Use to delete one user
+ *    parameters:
+ *      - name: email
+ *        in: path
+ *        description: Name of our customer
+ *        required: true
+ *        schema:
+ *          type: string
+ *          format: string
+ *    responses:
+        '200':
+          description: OK
+ */
+router.delete('/elimina/:email', function (req, res, next) {
+	//console.log(req.email);
+
+	User.deleteOne({email: req.params.email},function(err,data){
+		console.log(data);
+		if(!data){
+			res.send({"Success":"This Email Is not regestered!"});
+		}else{
+		}
+		return res.redirect('/');
+	});
+	
+});
 
 /**
  * @swagger
@@ -311,36 +341,7 @@ router.post('/forgetpass', function (req, res, next) {
 	});
 	
 });
-/**
- * @swagger
- * /elimina/{email}:
- *  delete:
- *    description: Use to delete one user
- *    parameters:
- *      - name: email
- *        in: path
- *        description: Name of our customer
- *        required: true
- *        schema:
- *          type: string
- *          format: string
- *    responses:
-        '200':
-          description: OK
- */
-router.delete('/elimina/:email', function (req, res, next) {
-	//console.log(req.email);
 
-	User.deleteOne({email: req.params.email},function(err,data){
-		console.log(data);
-		if(!data){
-			res.send({"Success":"This Email Is not regestered!"});
-		}else{
-		}
-		return res.redirect('/');
-	});
-	
-});
 
 router.post('/elimina', function (req, res, next) {
 	//console.log(req.email);
@@ -356,16 +357,18 @@ router.post('/elimina', function (req, res, next) {
 	
 });
 
-
-router.post('/prenota',async function(req, res, next){
-	//var biciinfo = req.body;
-	console.log("list");
-	console.log(req.body.id);
-	console.log("aaaa");
-	
+/**
+ * @swagger
+ * /forgetpass:
+ *  post:
+ *    description: use to rent a bike
+ *    responses:
+ *      201:
+ *         description: Rented
+ */
+router.post('/prenota',async function(req, res, next){	
 	await Bike.updateOne({id:req.body.id},{Stato: false});
 	return res.redirect('/catalogo');
-
 });
 
 
