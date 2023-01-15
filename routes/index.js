@@ -360,7 +360,7 @@ router.post('/elimina', function (req, res, next) {
 
 /**
  * @swagger
- * /forgetpass:
+ * /prenota:
  *  post:
  *    description: use to rent a bike
  *    responses:
@@ -371,6 +371,21 @@ router.post('/prenota',async function(req, res, next){
 	await Bike.updateOne({_id:req.body.id},{Stato: false});
 	return res.redirect('/catalogo');
 });
+
+/**
+ * @swagger
+ * /libera:
+ *  post:
+ *    description: use to rent a bike
+ *    responses:
+ *      201:
+ *         description: Rented
+ */
+router.post('/libera',async function(req, res, next){	
+	await Bike.update({Stato: true});
+	return res.redirect('/catalogo');
+});
+
 
 
 module.exports = router;
