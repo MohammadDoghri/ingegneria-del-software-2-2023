@@ -20,7 +20,7 @@ var swaggerOptions = {
       servers: ["http://localhost:3000"]
     }
   },
-  apis:['./routes/*.js']
+  apis: ['./routes/*.js']
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -30,7 +30,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 //mongoose.connect('mongodb+srv://<DB_USER_NAME>:<DB_PASSWORD>@cluster0-vatbg.mongodb.net/registrationFormHeruko?retryWrites=true&w=majority', {
-  mongoose.connect('mongodb+srv://provarent:provarent@cluster0.2k797.mongodb.net/biciclette', {
+mongoose.connect('mongodb+srv://provarent:provarent@cluster0.2k797.mongodb.net/biciclette', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
@@ -56,7 +56,7 @@ app.use(session({
 }));
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');	
+app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -83,5 +83,5 @@ app.use(function (err, req, res, next) {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
-  console.log('Server is started on http://127.0.0.1:'+PORT);
+  console.log('Server is started on http://127.0.0.1:' + PORT);
 });
