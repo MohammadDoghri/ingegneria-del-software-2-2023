@@ -176,9 +176,9 @@ router.post('/inserisci', function (req, res, next) {
 		Stato: true
     });
     nuovabici.save();
-	console.log(req.nuovabici);
-	res.status(201).send();
-    //res.redirect('/catalogo');	
+	//console.log(req.nuovabici);
+	//res.status(201).send();
+    res.redirect('/catalogo');	
 });
 
 /**
@@ -376,14 +376,15 @@ router.post('/prenota',async function(req, res, next){
  * @swagger
  * /libera:
  *  post:
- *    description: use to rent a bike
+ *    description: use to use to free all the bikes
  *    responses:
  *      201:
- *         description: Rented
+ *         description: set free
  */
 router.post('/libera',async function(req, res, next){	
-	await Bike.updatemany({Stato: false},{$set: {Stato: true}});
-	return res.redirect('/catalogo');
+	await Bike.updateMany({Stato: false},{$set: {Stato: true}});
+	res.status(201).send();
+	//return res.redirect('/catalogo');
 });
 
 
