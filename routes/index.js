@@ -368,7 +368,7 @@ router.post('/elimina', function (req, res, next) {
  *         description: Rented
  */
 router.post('/prenota',async function(req, res, next){	
-	await Bike.updateOne({id:req.body.id},{Stato: false});
+	await Bike.updateOne({_id:req.body.id},{Stato: false});
 	return res.redirect('/catalogo');
 });
 
