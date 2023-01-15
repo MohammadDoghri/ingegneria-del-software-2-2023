@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 //const biciSchema = {}
     
 bikeSchema = new Schema( {
-	id : Number,
+	//id : Number,
     Modello: String,
     Marca: String,
     Prezzo: Number,

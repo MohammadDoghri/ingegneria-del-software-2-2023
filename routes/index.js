@@ -168,7 +168,7 @@ router.post('/login', function (req, res, next) {
 router.post('/inserisci', function (req, res, next) {
 	console.log("INSERISCI");
 	let nuovabici = new Bike({
-		id: req.body.id,
+		//id: req.body.id,
         Modello: req.body.modello,
         Marca: req.body.marca,
         Prezzo: req.body.prezzo,

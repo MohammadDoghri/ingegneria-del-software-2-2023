@@ -8,7 +8,8 @@ describe('Creating documents in MongoDB', () => {
                                 Modello: 'ModelloTest',
                                 Marca : 'MarcaTest', 
                                 Prezzo: 999, 
-                                Descrizione : 'Questa è una bici Test non noleggiablie' 
+                                Descrizione : 'Questa è una bici Test non noleggiablie',
+                                Stato : true
                             });
         newBike.save() // returns a promise after some time
             .then(() => {
