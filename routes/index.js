@@ -382,7 +382,7 @@ router.post('/prenota',async function(req, res, next){
  *         description: Rented
  */
 router.post('/libera',async function(req, res, next){	
-	await Bike.updatemany({Stato: true});
+	await Bike.updatemany({},{Stato: true});
 	return res.redirect('/catalogo');
 });
 
