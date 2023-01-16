@@ -33,6 +33,13 @@
 				</table>
 			</center>
 		</div>
+		<div>
+		<% if(admin){ %>
+			<form id="prova" method="post" action="/libera">
+			<input type="submit" value="libera tute le bici" class="btn btn-success">
+			</form>
+			<% }%>
+		</div>
 		<div class="abc">
 			<a href="/catalogo">Visualizza catalogo</a><br>
 			<a href="/inserisci">Inserisci nuova bici</a><br>

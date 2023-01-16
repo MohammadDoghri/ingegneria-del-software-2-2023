@@ -77,7 +77,8 @@ router.post('/', function (req, res, next) {
 							email: personInfo.email,
 							username: personInfo.username,
 							password: personInfo.password,
-							passwordConf: personInfo.passwordConf
+							passwordConf: personInfo.passwordConf,
+							admin: false
 						});
 
 						newPerson.save(function (err, Person) {
@@ -207,7 +208,7 @@ router.get('/profile', function (req, res, next) {
 			res.redirect('/');
 		} else {
 			//console.log("found");
-			return res.render('data.ejs', { "name": data.username, "email": data.email });
+			return res.render('data.ejs', { "name": data.username, "email": data.email, "admin": data.admin });
 		}
 	});
 });
@@ -383,8 +384,8 @@ router.post('/prenota', async function (req, res, next) {
  */
 router.post('/libera', async function (req, res, next) {
 	await Bike.updateMany({ Stato: false }, { $set: { Stato: true } });
-	res.status(201).send();
-	//return res.redirect('/catalogo');
+	//res.status(201).send();
+	return res.redirect('/catalogo');
 });
 
 
