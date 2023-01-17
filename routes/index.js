@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
-var Bike = require('../models/bike'); //mioNuovo
+var Bike = require('../models/bike');
 
 // Routes
 /**
@@ -118,14 +118,11 @@ router.get('/login', function (req, res, next) {
  *      description: check if username and password are correct
  */
 router.post('/login', function (req, res, next) {
-	//console.log(req.body);
 	User.findOne({ email: req.body.email }, function (err, data) {
 		if (data) {
 
 			if (data.password == req.body.password) {
-				//console.log("Done Login");
 				req.session.userId = data.unique_id;
-				//console.log(req.session.userId);
 				res.send({ "Success": "Success!" });
 
 			} else {
@@ -137,51 +134,6 @@ router.post('/login', function (req, res, next) {
 	});
 });
 
-
-/**
- * @swagger
- * /inserisci:
- *    post:
- *      description: create a new bike
- *    parameters:
- *      - name: id
- *        in: query
- *        description: Name of our customer
- *        required: false
- *        schema:
- *          type: string
- *          format: string
- *      - name: user
- *        in: query
- *        description: Name of our customer
- *        required: false
- *        schema:
- *          type: string
- *          format: string
- *      - name: email
- *        in: query
- *        description: Name of our customer
- *        required: false
- *        schema:
- *          type: string
- *          format: string
- */
-router.post('/inserisci', function (req, res, next) {
-	console.log("INSERISCI");
-	let nuovabici = new Bike({
-		//id: req.body.id,
-		Modello: req.body.modello,
-		Marca: req.body.marca,
-		Prezzo: req.body.prezzo,
-		Descrizione: req.body.descrizione,
-		Stato: true
-	});
-	nuovabici.save();
-	//console.log(req.nuovabici);
-	//res.status(201).send();
-	res.redirect('/catalogo');
-});
-
 /**
  * @swagger
  * /inserisci:
@@ -190,6 +142,54 @@ router.post('/inserisci', function (req, res, next) {
  */
 router.get('/inserisci', function (req, res, next) {
 	return res.render('inserisci.ejs');
+});
+
+/**
+ * @swagger
+ * /inserisci:
+ *    post:
+ *      description: create a new bike
+ *    parameters:
+ *      - name: modello
+ *        in: query
+ *        description: model of the bike
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *      - name: marca
+ *        in: query
+ *        description: brand of the bike
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ *      - name: prezzo
+ *        in: query
+ *        description: price of the bike
+ *        required: false
+ *        schema:
+ *          type: integer
+ *          format: integer
+ *      - name: descrizione
+ *        in: query
+ *        description: description of the bike
+ *        required: false
+ *        schema:
+ *          type: string
+ *          format: string
+ */
+router.post('/inserisci', function (req, res, next) {
+	console.log("INSERISCI");
+	let nuovabici = new Bike({
+		Modello: req.body.modello,
+		Marca: req.body.marca,
+		Prezzo: req.body.prezzo,
+		Descrizione: req.body.descrizione,
+		Stato: true
+	});
+	nuovabici.save();
+	res.redirect('/catalogo');
 });
 
 
@@ -207,7 +207,6 @@ router.get('/profile', function (req, res, next) {
 		if (!data) {
 			res.redirect('/');
 		} else {
-			//console.log("found");
 			return res.render('data.ejs', { "name": data.username, "email": data.email, "admin": data.admin });
 		}
 	});
@@ -223,7 +222,6 @@ router.get('/profile', function (req, res, next) {
 router.get('/logout', function (req, res, next) {
 	console.log("logout")
 	if (req.session) {
-		// delete session object
 		req.session.destroy(function (err) {
 			if (err) {
 				return next(err);
@@ -251,8 +249,6 @@ router.get('/logout', function (req, res, next) {
 		  description: OK
  */
 router.delete('/elimina/:email', function (req, res, next) {
-	//console.log(req.email);
-
 	User.deleteOne({ email: req.params.email }, function (err, data) {
 		console.log(data);
 		if (!data) {
@@ -269,9 +265,6 @@ router.delete('/elimina/:email', function (req, res, next) {
  * /catalogo:
  *  get:
  *    description: get all the disponible bikes
- *    responses:
- *      201:
- *         description: Created
  */
 router.get('/catalogo', function (req, res, next) {
 	console.log("visualizza catalogo");
@@ -299,9 +292,6 @@ router.get('/forgetpass', function (req, res, next) {
  * /forgetpass:
  *  get:
  *    description: Use to render the elimina page
- *    responses:
- *      201:
- *         description: Created
  */
 router.get('/elimina', function (req, res, next) {
 	res.render("elimina.ejs");
@@ -314,17 +304,14 @@ router.get('/elimina', function (req, res, next) {
  *    description: use to change user password
  *    responses:
  *      201:
- *         description: Created
+ *         description: Password changed
  */
 router.post('/forgetpass', function (req, res, next) {
-	//console.log('req.body');
-	//console.log(req.body);
 	User.findOne({ email: req.body.email }, function (err, data) {
 		console.log(data);
 		if (!data) {
 			res.send({ "Success": "This Email Is not regestered!" });
 		} else {
-			// res.send({"Success":"Success!"});
 			if (req.body.password == req.body.passwordConf) {
 				data.password = req.body.password;
 				data.passwordConf = req.body.passwordConf;
@@ -346,8 +333,6 @@ router.post('/forgetpass', function (req, res, next) {
 
 
 router.post('/elimina', function (req, res, next) {
-	//console.log(req.email);
-
 	User.deleteOne({ email: req.body.email }, function (err, data) {
 		console.log(data);
 		if (!data) {
@@ -356,7 +341,6 @@ router.post('/elimina', function (req, res, next) {
 		}
 		return res.redirect('/');
 	});
-
 });
 
 /**
@@ -369,8 +353,8 @@ router.post('/elimina', function (req, res, next) {
  *         description: Rented
  */
 router.post('/prenota', async function (req, res, next) {
-	if((req.body.id != "") && (Bike.findOne({_id: req.body.id}))){
-	await Bike.updateOne({ _id: req.body.id }, { Stato: false });
+	if ((req.body.id != "") && (Bike.findOne({ _id: req.body.id }))) {
+		await Bike.updateOne({ _id: req.body.id }, { Stato: false });
 	}
 	return res.redirect('/catalogo');
 });
@@ -382,11 +366,10 @@ router.post('/prenota', async function (req, res, next) {
  *    description: use to use to free all the bikes
  *    responses:
  *      201:
- *         description: set free
+ *         description: all bikes are free
  */
 router.post('/libera', async function (req, res, next) {
 	await Bike.updateMany({ Stato: false }, { $set: { Stato: true } });
-	//res.status(201).send();
 	return res.redirect('/catalogo');
 });
 

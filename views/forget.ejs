@@ -22,10 +22,7 @@
 					data: $('#form2').serialize(),
 					dataType: "json",
 					success: function (response) {
-						//alert("a");
-						//console.log(response.Success);
 						$('#form2')[0].reset();
-						//alert("abc");
 						document.getElementById("check").innerHTML = response.Success;
 
 						setTimeout(function () {
